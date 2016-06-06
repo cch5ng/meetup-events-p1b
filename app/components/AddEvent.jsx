@@ -36,7 +36,7 @@ export default class AddEvent extends React.Component {
 					<div className="form-group">
 						<label htmlFor="evt-name" className="col-sm-2 control-label">Event Name</label>
 						<div className="col-sm-10">
-							<input type="text" id="evt-name" className="form-control" name="evt-name" alt="event name" placeholder="required" required />
+							<input type="text" id="evt-name" className="form-control" name="evt-name" alt="event name" placeholder="required" autofocus required />
 						</div>
 					</div>
 					<div className="form-group">

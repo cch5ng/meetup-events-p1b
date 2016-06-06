@@ -26,7 +26,7 @@ export default class Home extends React.Component {
 					<div className="form-group">
 						<label htmlFor="email-login" className="col-sm-2 control-label">Email Address</label>
 						<div className="col-sm-10">
-							<input id="email-login" className="form-control" name="email-login" type="email" alt="email address" required autoComplete="email" />
+							<input id="email-login" className="form-control" name="email-login" type="email" alt="email address" required autofocus autoComplete="email" />
 						</div>
 					</div>
 					<div className="form-group">
