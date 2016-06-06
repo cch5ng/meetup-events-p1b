@@ -10,6 +10,13 @@ export default class Home extends React.Component {
 		// }
 	}
 
+	componentDidMount() {
+		//workaround for autofocus on single page app
+		if (!(document.getElementById('email-login').hasAttribute('autofocus'))) {
+			document.getElementById('email-login').focus();
+		}
+	}
+
 	render() {
 		return (
 /* NOTE to REVIEWER this form is cosmetic and nonfunctional */

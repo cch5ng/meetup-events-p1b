@@ -26,6 +26,9 @@ export default class AddEvent extends React.Component {
 
 	componentDidMount() {
 		this.getGeolocation();
+		if (!(document.getElementById('evt-name').hasAttribute('autofocus'))) {
+			document.getElementById('evt-name').focus();
+		}
 	}
 
 	render() {

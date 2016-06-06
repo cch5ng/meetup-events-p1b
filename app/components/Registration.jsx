@@ -20,6 +20,13 @@ export default class Registration extends React.Component {
 		}
 	}
 
+	componentDidMount() {
+		//workaround for autofocus on single page app
+		if (!(document.getElementById('name').hasAttribute('autofocus'))) {
+			document.getElementById('name').focus();
+		}
+	}
+
 	render() {
 		return (
 			<div>
