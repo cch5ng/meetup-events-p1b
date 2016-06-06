@@ -67,7 +67,7 @@ export default class Registration extends React.Component {
 						</div>
 					</div>
 					<div className="text-center">
-						<button className="btn btn-primary btn-block" id="register-submit" onClick={this.validateForm} type="button">Save</button>
+						<button className="btn btn-primary btn-block" id="register-submit" onClick={this.validateForm} type="submit">Save</button>
 					</div>
 				</form>
 			</div>
@@ -247,7 +247,7 @@ export default class Registration extends React.Component {
 	 *@return
 	 * On form submit, verifies that there are no input errors.
 	 */
-	validateForm = () => {
+	validateForm = (e) => {
 //NOTE to REVIEWER, moved check for passwords here b/c had difficulty troubleshooting removal of mismatched
 //passwords error message when the issue was resolved on password input change (might have been bad js logic)
 		this.passwordsMatch();

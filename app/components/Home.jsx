@@ -43,7 +43,7 @@ export default class Home extends React.Component {
 						</div>
 					</div>
 					<div className="text-center">
-						<button className="btn btn-primary btn-block" id="btn-login" type="button">Log In</button>
+						<button className="btn btn-primary btn-block" id="btn-login" type="submit">Log In</button>
 					</div>
 				</form>
 			</div>

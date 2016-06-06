@@ -135,7 +135,7 @@ export default class AddEvent extends React.Component {
 						</div>
 					</div>
 					<div className="text-center">
-						<button className="btn btn-primary btn-block" id="event-submit" onClick={this.validateEventForm} type="button">Save</button>
+						<button className="btn btn-primary btn-block" id="event-submit" onClick={this.validateEventForm} type="submit">Save</button>
 					</div>
 				</form>
 			</div>
@@ -448,7 +448,10 @@ export default class AddEvent extends React.Component {
 	 *@return
 	 * On form submit, would verify that there are no input errors. If error free, submit form.
 	 */
-	validateEventForm = () => {
+	validateEventForm = (e) => {
+//QUESTION, I learned on form submit that I should call preventDefault() to prevent refreshing the page for SPA's
+//but in this case, it prevents the browser from responding to the "required" attribute, how do you handle this?
+//		e.preventDefault();
 		let guestAr = this.guestStrToList();
 //TODO
 		//if (this.state.isStartDateValid && this.state.isEndTimeValid) {
