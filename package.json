@@ -4,7 +4,7 @@
   "description": "Event planner app",
   "repository": {
     "type": "git",
-    "url": "git://github.com/cch5ng/meetup-react-p1.git"
+    "url": "git://github.com/cch5ng/meetup-events-p1b.git"
   },
   "main": "index.js",
   "scripts": {

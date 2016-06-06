@@ -59,7 +59,7 @@ const common = {
     new HtmlWebpackPlugin({
       inject: false,
     	template: 'node_modules/html-webpack-template/index.ejs',
-    	title: 'Meetup Events (Firebase-React)',
+    	title: 'Meetup Events',
     	appMountId: 'app',
     })
   ]
