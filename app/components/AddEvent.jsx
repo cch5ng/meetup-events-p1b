@@ -16,8 +16,9 @@ export default class AddEvent extends React.Component {
 			isStartDateValid: true,
 			startDateErrors: '',
 			isEndDateValid: true,
-			endDateErrors: '',
-			startTimeMin: null,
+			endDateErrors: [],
+			startDate: null,
+			endDate: null,
 			isGuestsTextValid: false,
 			guestsTextErrors: ''
 		}
@@ -233,7 +234,6 @@ export default class AddEvent extends React.Component {
 
 		let startDateInp = document.getElementById('evt-start-date');
 		//console.log('startDateInp val: ' + startDateInp.value);
-		let startTimeMin = this.dateStrToTimeMinutes(startDateInp.value);
 		let startDate =  new Date(startDateInp.value);
 		//console.log('startDate: ' + startDate);
 		//console.log('curDate: ' + curDate);
@@ -241,19 +241,18 @@ export default class AddEvent extends React.Component {
 		//console.log('startDate ms: ' + startDate.getTime());
 		//console.log('curDate ms: ' + curDate.getTime());
 		if (startDate.getTime() < curDate.getTime()) {
-			//convert start time to array value
 			//error condition
 			this.setState(
 				{isStartDateValid: false,
 				startDateErrors: 'The start date and time should be in the future',
-				startTimeMin: null}
+				startDate: null}
 			);
 		} else {
 			//clear errors
 			this.setState(
 				{isStartDateValid: true,
 				startDateErrors: '',
-				startTimeMin: startTimeMin}
+				startDate: startDate.getTime()}
 			);
 		}
 	}
@@ -272,35 +271,42 @@ export default class AddEvent extends React.Component {
 	/**
 	 *@param
 	 *@return
-	 * Checks whether the start date/time is after the current date. If the check fails, it sets an error message in state.
+	 * Checks whether the end date/time is after the current date and after the start date. If the check fails, it sets an error message in state.
 	 */
 	validateEndDate = () => {
 		let curDate = new Date();
+		let endDateErrors = [];
 		curDate.setHours(curDate.getHours() - 7);
 
 		let endDateInp = document.getElementById('evt-end-date');
-		//console.log('startDateInp val: ' + startDateInp.value);
-		let startTimeMin = this.dateStrToTimeMinutes(startDateInp.value);
-		let startDate =  new Date(startDateInp.value);
-		//console.log('startDate: ' + startDate);
-		//console.log('curDate: ' + curDate);
-		//verify start date later than cur date/time
-		//console.log('startDate ms: ' + startDate.getTime());
-		//console.log('curDate ms: ' + curDate.getTime());
-		if (startDate.getTime() < curDate.getTime()) {
-			//convert start time to array value
+		let endDate =  new Date(endDateInp.value);
+		console.log('endDate: ' + endDate);
+		if (endDate.getTime() < curDate.getTime()) {
 			//error condition
+			console.log('endDate ms: ' + endDate.getTime());
+			console.log('curDate ms: ' + curDate.getTime());
+			endDateErrors.push('The end date and time should be in the future');
+		}
+
+		if (this.state.startDate && endDate.getTime() < this.state.startDate) {
+			endDateErrors.push('The end date should be after the start date');
+		}
+
+		if (endDateErrors.length > 0) {
+			console.log('there are endDate errors');
 			this.setState(
-				{isStartDateValid: false,
-				startDateErrors: 'The start date and time should be in the future',
-				startTimeMin: null}
+				{isEndDateValid: false,
+				endDateErrors: endDateErrors,
+				endDate: null}
 			);
 		} else {
+			console.log('no endDate errors');
+
 			//clear errors
 			this.setState(
-				{isStartDateValid: true,
-				startDateErrors: '',
-				startTimeMin: startTimeMin}
+				{isEndDateValid: true,
+				endDateErrors: [],
+				endDate: endDate.getTime()}
 			);
 		}
 	}
@@ -311,9 +317,12 @@ export default class AddEvent extends React.Component {
 	 * Displays start date/time validation error.
 	 */
 	displayEndDateError = () => {
+		let endDateErrors = this.state.endDateErrors;
 		return (
-			<p className="start-date-error error">{this.state.startDateErrors}</p>
-		)
+			endDateErrors.map(err => 
+				<p className="end-date-error error">{err}</p>
+			)
+		);
 	}
 
 	/**
@@ -361,34 +370,34 @@ export default class AddEvent extends React.Component {
 	 *@return
 	 * Checks that the end time is later than the start time.
 	 */
-	validateEndTime = () => {
-		let isEndTimeValid;
-		let endTimeErrors = '';
-		let endTimeMin = this.timeStrToMinutes(); 
+	// validateEndTime = () => {
+	// 	let isEndTimeValid;
+	// 	let endTimeErrors = '';
+	// 	let endTimeMin = this.timeStrToMinutes(); 
 
-		if (this.state.startTimeMin < endTimeMin) {
-			this.setState({
-				isEndTimeValid: true,
-				endTimeErrors: ''
-			});
-		} else {
-			this.setState({
-				isEndTimeValid: false,
-				endTimeErrors: 'The end time should be later than the start time'
-			});
-		}
-	}
+	// 	if (this.state.startTimeMin < endTimeMin) {
+	// 		this.setState({
+	// 			isEndTimeValid: true,
+	// 			endTimeErrors: ''
+	// 		});
+	// 	} else {
+	// 		this.setState({
+	// 			isEndTimeValid: false,
+	// 			endTimeErrors: 'The end time should be later than the start time'
+	// 		});
+	// 	}
+	// }
 
 	/**
 	 *@param
 	 *@return
 	 * If the end time validation fails, displays the error message.
 	 */
-	displayEndTimeError = () => {
-		return (
-			<p className="end-time-error error">{this.state.endTimeErrors}</p>
-		)
-	}
+	// displayEndTimeError = () => {
+	// 	return (
+	// 		<p className="end-time-error error">{this.state.endTimeErrors}</p>
+	// 	)
+	// }
 
 	/**
 	 *@param
