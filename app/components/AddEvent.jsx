@@ -25,7 +25,9 @@ export default class AddEvent extends React.Component {
 	}
 
 	componentDidMount() {
+		//used to autopopulate address fields
 		this.getGeolocation();
+		//workaround for autofocus on single page app
 		if (!(document.getElementById('evt-name').hasAttribute('autofocus'))) {
 			document.getElementById('evt-name').focus();
 		}
@@ -39,7 +41,7 @@ export default class AddEvent extends React.Component {
 					<div className="form-group">
 						<label htmlFor="evt-name" className="col-sm-2 control-label">Event Name</label>
 						<div className="col-sm-10">
-							<input type="text" id="evt-name" className="form-control" name="evt-name" alt="event name" placeholder="required" autofocus required />
+							<input type="text" id="evt-name" className="form-control" name="evt-name" alt="event name" placeholder="required" autoFocus required />
 						</div>
 					</div>
 					<div className="form-group">

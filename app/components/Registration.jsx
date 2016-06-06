@@ -35,7 +35,7 @@ export default class Registration extends React.Component {
 					<div className="form-group">
 						<label htmlFor="name" className="col-sm-2 control-label">Name</label>
 						<div className="col-sm-10">
-							<input type="text" id="name" className="form-control" name="name" alt="user name" required autoComplete="name" autofocus placeholder="Full Name" />
+							<input type="text" id="name" className="form-control" name="name" alt="user name" required autoComplete="name" autoFocus placeholder="Full Name" />
 						</div>
 					</div>
 					<div className="form-group">
