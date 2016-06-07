@@ -50,6 +50,7 @@ export default class Registration extends React.Component {
 						<div className="col-sm-10">
 							<input id="pwd" className="form-control" name="pwd" type="password" alt="password" onChange={this.validatePwd} placeholder=">= 8 chars, 1 num, 1 CAP, 1 special char" required />
 							{this.state.isPwdValid ? null : this.displayPwdError()}
+							{this.state.passwordsMatch ? null : this.displayPwdMatchError()}
 						</div>
 					</div>
 					<div className="form-group">
@@ -141,6 +142,8 @@ export default class Registration extends React.Component {
 			this.setState({isPwdValid: false, pwdErrors: pwdErrorsAr})
 			pwd.setCustomValidity(pwdErrorsAr.join('. '));
 		}
+
+		this.passwordsMatch();
 		//console.log('pwdErrorsAr: ' + pwdErrorsAr);
 	};
 
@@ -183,6 +186,8 @@ export default class Registration extends React.Component {
 			this.setState({isPwd2Valid: false, pwd2Errors: pwdErrorsAr2})
 			pwd2.setCustomValidity(pwdErrorsAr2.join('. '));
 		}
+
+		this.passwordsMatch();
 		//console.log('pwdErrorsAr2: ' + pwdErrorsAr2);
 	};
 
