@@ -41,13 +41,13 @@ export default class AddEvent extends React.Component {
 					<div className="form-group">
 						<label htmlFor="evt-name" className="col-sm-2 control-label">Event Name</label>
 						<div className="col-sm-10">
-							<input type="text" id="evt-name" className="form-control" name="evt-name" alt="event name" placeholder="required" autoFocus required />
+							<input type="text" id="evt-name" className="form-control" name="evt-name" placeholder="required" autoFocus required />
 						</div>
 					</div>
 					<div className="form-group">
 						<label htmlFor="evt-type" className="col-sm-2 control-label">Event Type</label>
 						<div className="col-sm-10">
-							<input list="evt-type" className="form-control" name="evt-type" alt="event type" required />
+							<input list="evt-type" className="form-control" name="evt-type" required />
 							<datalist id="evt-type" >
 							  <option value="Social" />
 							  <option value="Business" />
@@ -64,14 +64,14 @@ export default class AddEvent extends React.Component {
 					<div className="form-group">
 						<label htmlFor="evt-start-date" className="col-sm-2 control-label">Start Date/Time</label>
 						<div className="col-sm-10">
-							<input id="evt-start-date" className="form-control" type="datetime-local" name="evt-start-date" alt="event start date and time" onChange={this.validateStartDate} required />
+							<input id="evt-start-date" className="form-control" type="datetime-local" name="evt-start-date" onChange={this.validateStartDate} required />
 							{this.state.isStartDateValid ? null : this.displayStartDateError()}
 						</div>
 					</div>
 					<div className="form-group">
 						<label htmlFor="evt-end-date" className="col-sm-2 control-label">End Date/Time</label>
 						<div className="col-sm-10">
-							<input id="evt-end-date" className="form-control" type="datetime-local" name="evt-end-date" alt="event end date and time" onChange={this.validateEndDate} required />
+							<input id="evt-end-date" className="form-control" type="datetime-local" name="evt-end-date" onChange={this.validateEndDate} required />
 							{this.state.isEndDateValid ? null : this.displayEndDateError()}
 						</div>
 					</div>
@@ -79,7 +79,7 @@ export default class AddEvent extends React.Component {
 						<div className="col-sm-offset-2 col-sm-10">
 							<div className="checkbox">
 								<label>
-									<input type="checkbox" id="curLocation" alt="checkbox to use geolocation for event location" defaultChecked onChange={this.toggleGeolocation} /> Use current location
+									<input type="checkbox" id="curLocation" defaultChecked onChange={this.toggleGeolocation} /> Use current location
 								</label>
 							</div>
 						</div>
@@ -88,32 +88,32 @@ export default class AddEvent extends React.Component {
 						<div className="form-group">
 							<label htmlFor="add1" className="col-sm-2 control-label">Street Address</label>
 							<div className="col-sm-10">
-								<input type="text" id="add1" className="form-control" name="address" alt="event street address" required autoComplete="street-address" /> {/*value={this.state.geoAdd1} */}
+								<input type="text" id="add1" className="form-control" name="address" required autoComplete="street-address" /> {/*value={this.state.geoAdd1} */}
 							</div>
 						</div>
 						<div className="form-group">
 							<label htmlFor="city" className="col-sm-2 control-label">City</label>
 							<div className="col-sm-10">
-								<input type="text" id="city" className="form-control" name="province" alt="event city" required autoComplete="address-level2" /> {/* value={this.state.geoCity}*/}
+								<input type="text" id="city" className="form-control" name="province" required autoComplete="address-level2" /> {/* value={this.state.geoCity}*/}
 							</div>
 						</div>
 						<div className="form-group">
 							<label htmlFor="zip" className="col-sm-2 control-label">Zip Code</label>
 							<div className="col-sm-10">
-								<input type="text" id="zip" className="form-control" name="state" alt="event zip code" required autoComplete="postal-code" /> {/*  value={this.state.geoZip}*/}
+								<input type="text" id="zip" className="form-control" name="state" required autoComplete="postal-code" /> {/*  value={this.state.geoZip}*/}
 							</div>
 						</div>
 					</div>
 					<div className="form-group">
 						<label htmlFor="event-guests" className="col-sm-2 control-label">Guests</label>
 						<div className="col-sm-10">
-							<textarea id="event-guests" className={this.getGuestsTextClass()} alt="guest list" onChange={this.validateGuestsText} required placeholder="Separate guests with a new line"></textarea>
+							<textarea id="event-guests" className={this.getGuestsTextClass()} onChange={this.validateGuestsText} required placeholder="Separate guests with a new line"></textarea>
 						</div>
 					</div>
 					<div className="form-group">
 						<label htmlFor="event-msg" className="col-sm-2 control-label">Event Note</label>
 						<div className="col-sm-10">
-							<input type="text" id="event-msg" className="form-control" name="event-msg" alt="note to attendees" placeholder="optional" />
+							<input type="text" id="event-msg" className="form-control" name="event-msg" placeholder="optional" />
 						</div>
 					</div>
 					<div className="text-center">
