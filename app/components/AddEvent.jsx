@@ -47,7 +47,7 @@ export default class AddEvent extends React.Component {
 					<div className="form-group">
 						<label htmlFor="evt-type" className="col-sm-2 control-label">Event Type</label>
 						<div className="col-sm-10">
-							<input list="evt-type" className="form-control" name="evt-type" alt="event type" />
+							<input list="evt-type" className="form-control" name="evt-type" alt="event type" required />
 							<datalist id="evt-type" >
 							  <option value="Social" />
 							  <option value="Business" />
