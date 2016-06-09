@@ -1,6 +1,7 @@
 //app/components/Registration.jsx
 
 import React from 'react';
+import uuid from 'node-uuid';
 
 export default class Registration extends React.Component {
 
@@ -239,13 +240,23 @@ export default class Registration extends React.Component {
 	/**
 	 *@param
 	 *@return
+	 * Generate unique key for errors
+	 */
+	genKey = () => {
+		return uuid.v4();
+	};
+
+
+	/**
+	 *@param
+	 *@return
 	 * On first password error, displays error messages.
 	 */
 	displayPwdError = () => {
 		let pwdErrors = this.state.pwdErrors;
 		return (
 			pwdErrors.map(err =>
-				<p className="pwd-error error">{err}</p>
+				<p key={this.genKey()} className="pwd-error error">{err}</p>
 			)
 		)
 	};
@@ -259,7 +270,7 @@ export default class Registration extends React.Component {
 		let pwd2Errors = this.state.pwd2Errors;
 		return (
 			pwd2Errors.map(err =>
-				<p className="pwd-error error">{err}</p>
+				<p key={this.genKey()} className="pwd-error error">{err}</p>
 			)
 		)
 	};
@@ -308,11 +319,9 @@ export default class Registration extends React.Component {
 	 * On form submit, verifies that there are no input errors.
 	 */
 	validateForm = (e) => {
-//NOTE to REVIEWER, moved check for passwords here b/c had difficulty troubleshooting removal of mismatched
-//passwords error message when the issue was resolved on password input change (might have been bad js logic)
-		this.passwordsMatch();
-
-		if ( this.state.isEmailValid && this.state.isPwdValid && this.state.isPwd2Valid && this.state.passwordsMatch) {
+		let regForm = document.getElementById('reg-form');
+		e.preventDefault();
+		if ( this.state.isEmailValid && this.state.isPwdValid && this.state.isPwd2Valid && this.state.passwordsMatch && !this.state.isEmailEmpty && !this.state.isNameEmpty && !this.state.isPwdEmpty && !this.state.isPwd2Emtpy) {
 //TODO
 			//fields are valid, submit form and save to data store
 			console.log('submitting form and saving data');
@@ -320,6 +329,8 @@ export default class Registration extends React.Component {
 			//don't submit form
 			console.log('cannot submit form. fix validation errors first');
 		}
+		//clear form
+		//regForm.reset();
 	}
 
 }
