@@ -1,6 +1,7 @@
 //app/components/AddEvent.jsx
 
 import React from 'react';
+import uuid from 'node-uuid';
 
 export default class AddEvent extends React.Component {
 
@@ -69,7 +70,8 @@ export default class AddEvent extends React.Component {
 					<div className="form-group">
 						<label htmlFor="evt-host" className="col-sm-2 control-label">Host</label>
 						<div className="col-sm-10">
-							<input type="text" id="evt-host" className="form-control" name="evt-host" placeholder="individual or organization" required />
+							<input type="text" id="evt-host" className="form-control" name="evt-host" onChange={this.validateHost} placeholder="individual or organization" required />
+							{this.state.isHostEmpty ? this.displayRequiredError() : null }
 						</div>
 					</div>
 					<div className="form-group">
@@ -77,6 +79,7 @@ export default class AddEvent extends React.Component {
 						<div className="col-sm-10">
 							<input id="evt-start-date" className="form-control" type="datetime-local" name="evt-start-date" onChange={this.validateStartDate} aria-labelledby="evt-start-date" required />
 							{this.state.isStartDateValid ? null : this.displayStartDateError()}
+							{this.state.isStartDateEmpty ? this.displayRequiredDateError() : null }
 						</div>
 					</div>
 					<div className="form-group">
@@ -84,6 +87,7 @@ export default class AddEvent extends React.Component {
 						<div className="col-sm-10">
 							<input id="evt-end-date" className="form-control" type="datetime-local" name="evt-end-date" onChange={this.validateEndDate} aria-labelledby="evt-end-date" required />
 							{this.state.isEndDateValid ? null : this.displayEndDateError()}
+							{this.state.isEndDateEmpty ? this.displayRequiredDateError() : null }
 						</div>
 					</div>
 					<div className="form-group">
@@ -136,6 +140,16 @@ export default class AddEvent extends React.Component {
 	}
 
 	//helpers
+//TODO refactor same funciton in Registration comp
+	/**
+	 *@param
+	 *@return
+	 * Generate unique key for errors
+	 */
+	genKey = () => {
+		return uuid.v4();
+	};
+
 	/**
 	 *@param
 	 *@return
@@ -163,6 +177,21 @@ export default class AddEvent extends React.Component {
 			this.setState({isEventTypeEmpty: true});
 		} else {
 			this.setState({isEventTypeEmpty: false});
+		}
+	}
+
+	/**
+	 *@param
+	 *@return
+	 * Verify that Host name is not empty.
+	 */
+	validateHost = () => {
+		let eventHost = document.getElementById('evt-host');
+
+		if (eventHost.value.length === 0) {
+			this.setState({isHostEmpty: true});
+		} else {
+			this.setState({isHostEmpty: false});
 		}
 	}
 
@@ -274,10 +303,20 @@ export default class AddEvent extends React.Component {
 	 */
 	validateStartDate = () => {
 		let curDate = new Date();
+		let isStartDateEmpty;
+		//fix for local PDT time
 		curDate.setHours(curDate.getHours() - 7);
 
 		let startDateInp = document.getElementById('evt-start-date');
 		//console.log('startDateInp val: ' + startDateInp.value);
+
+		//check if field empty
+		if (startDateInp.value.length === 0) {
+			isStartDateEmpty = true;
+		} else {
+			isStartDateEmpty = false;
+		}
+
 		let startDate =  new Date(startDateInp.value);
 		//console.log('startDate: ' + startDate);
 		//console.log('curDate: ' + curDate);
@@ -289,15 +328,17 @@ export default class AddEvent extends React.Component {
 			this.setState(
 				{isStartDateValid: false,
 				startDateErrors: 'The start date and time should be in the future',
-				startDate: null}
-			);
+				startDate: null,
+				isStartDateEmpty: isStartDateEmpty
+			});
 		} else {
 			//clear errors
 			this.setState(
 				{isStartDateValid: true,
 				startDateErrors: '',
-				startDate: startDate.getTime()}
-			);
+				startDate: startDate.getTime(),
+				isStartDateEmpty: isStartDateEmpty
+			});
 		}
 	}
 
@@ -320,11 +361,20 @@ export default class AddEvent extends React.Component {
 	validateEndDate = () => {
 		let curDate = new Date();
 		let endDateErrors = [];
+		let isEndDateEmpty;
 		curDate.setHours(curDate.getHours() - 7);
 
 		let endDateInp = document.getElementById('evt-end-date');
 		let endDate =  new Date(endDateInp.value);
-		console.log('endDate: ' + endDate);
+		//console.log('endDate: ' + endDate);
+
+		//check if field empty
+		if (endDateInp.value.length === 0) {
+			isEndDateEmpty = true;
+		} else {
+			isEndDateEmpty = false;
+		}
+
 		if (endDate.getTime() < curDate.getTime()) {
 			//error condition
 			console.log('endDate ms: ' + endDate.getTime());
@@ -333,6 +383,7 @@ export default class AddEvent extends React.Component {
 		}
 
 		if (this.state.startDate && endDate.getTime() < this.state.startDate) {
+			//console.log('end date is before the start date');
 			endDateErrors.push('The end date should be after the start date');
 		}
 
@@ -341,8 +392,9 @@ export default class AddEvent extends React.Component {
 			this.setState(
 				{isEndDateValid: false,
 				endDateErrors: endDateErrors,
-				endDate: null}
-			);
+				endDate: null,
+				isEndDateEmpty: isEndDateEmpty
+			});
 		} else {
 			console.log('no endDate errors');
 
@@ -350,8 +402,9 @@ export default class AddEvent extends React.Component {
 			this.setState(
 				{isEndDateValid: true,
 				endDateErrors: [],
-				endDate: endDate.getTime()}
-			);
+				endDate: endDate.getTime(),
+				isEndDateEmpty: isEndDateEmpty
+			});
 		}
 	}
 
@@ -364,7 +417,7 @@ export default class AddEvent extends React.Component {
 		let endDateErrors = this.state.endDateErrors;
 		return (
 			endDateErrors.map(err => 
-				<p className="end-date-error error">{err}</p>
+				<p className="end-date-error error" key={this.genKey()} >{err}</p>
 			)
 		);
 	}
@@ -492,6 +545,18 @@ export default class AddEvent extends React.Component {
 			<p className="required-error error">This field is required</p>
 		)
 	}
+
+	/**
+	 *@param
+	 *@return
+	 * Displays an error for required datetime-local fields which are empty.
+	 */
+	displayRequiredDateError = () => {
+		return (
+			<p className="required-error error">Please enter a date and time.</p>
+		)
+	}
+
 
 	/**
 	 *@param
