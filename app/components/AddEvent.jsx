@@ -94,7 +94,7 @@ export default class AddEvent extends React.Component {
 						<div className="col-sm-offset-2 col-sm-10">
 							<div className="checkbox">
 								<label>
-									<input type="checkbox" id="curLocation" defaultChecked onChange={this.toggleGeolocation} /> Use current location
+									<input type="checkbox" id="curLocation" defaultChecked onChange={this.toggleGeolocation} /> Use current location (may take a few moments)
 								</label>
 							</div>
 						</div>
@@ -103,19 +103,22 @@ export default class AddEvent extends React.Component {
 						<div className="form-group">
 							<label htmlFor="add1" className="col-sm-2 control-label">Street Address</label>
 							<div className="col-sm-10">
-								<input type="text" id="add1" className="form-control" name="address" required autoComplete="street-address" /> {/*value={this.state.geoAdd1} */}
+								<input type="text" id="add1" className="form-control" name="address" onChange={this.validateAdd1} required autoComplete="street-address" /> {/*value={this.state.geoAdd1} */}
+								{this.state.isAdd1Empty ? this.displayRequiredError() : null }
 							</div>
 						</div>
 						<div className="form-group">
 							<label htmlFor="city" className="col-sm-2 control-label">City</label>
 							<div className="col-sm-10">
-								<input type="text" id="city" className="form-control" name="province" required autoComplete="address-level2" /> {/* value={this.state.geoCity}*/}
+								<input type="text" id="city" className="form-control" name="province" onChange={this.validateCity} required autoComplete="address-level2" /> {/* value={this.state.geoCity}*/}
+								{this.state.isCityEmpty ? this.displayRequiredError() : null }
 							</div>
 						</div>
 						<div className="form-group">
 							<label htmlFor="zip" className="col-sm-2 control-label">Zip Code</label>
 							<div className="col-sm-10">
-								<input type="text" id="zip" className="form-control" name="state" required autoComplete="postal-code" /> {/*  value={this.state.geoZip}*/}
+								<input type="text" id="zip" className="form-control" name="state" onChange={this.validateZip} required autoComplete="postal-code" /> {/*  value={this.state.geoZip}*/}
+								{this.state.isZipEmpty ? this.displayRequiredError() : null }
 							</div>
 						</div>
 					</div>
@@ -237,12 +240,11 @@ export default class AddEvent extends React.Component {
 					city.value = geoCity;
 					zip.value = geoZip;
 
-					// this.setState({
-					// 	geoLocationChecked: true,
-					// 	geoAdd1: geoAdd1,
-					// 	geoCity: geoCity,
-					// 	geoZip: geoZip
-					// });
+					this.setState({
+						isAdd1Empty: false,
+						isCityEmpty: false,
+						isZipEmpty: false
+					});
 					//console.log('this: ' + this);
 					//console.log('state geoAdd1: ' + this.state.geoLocationChecked);
 				}.bind(that)).fail(function(jqXHR, textStatus, errorThrown) {
@@ -251,6 +253,11 @@ export default class AddEvent extends React.Component {
 
 			}, function(error) {
 				console.log('sorry, unable to retrieve location');
+				this.setState({
+					isAdd1Empty: true,
+					isCityEmpty: true,
+					isZipEmpty: true
+				});
 			});
 		}
 	};
@@ -262,21 +269,18 @@ export default class AddEvent extends React.Component {
 	 */
 	toggleGeolocation = () => {
 		if (this.state.geoLocationChecked) {
-			this.setState({geoLocationChecked: false});
 			let add1 = document.getElementById('add1');
 			let city = document.getElementById('city');
 			let zip = document.getElementById('zip');
 			add1.value = '';
 			city.value = '';
 			zip.value = '';
-
-
-			// this.setState({
-			// 	geoLocationChecked: false,
-			// 	geoAdd1: '',
-			// 	geoCity: '',
-			// 	geoZip: ''
-			// });
+			this.setState({
+				geoLocationChecked: false,
+				isAdd1Empty: true,
+				isCityEmpty: true,
+				isZipEmpty: true
+			});
 		} else {
 			this.setState({
 				geoLocationChecked: true
@@ -288,14 +292,45 @@ export default class AddEvent extends React.Component {
 	/**
 	 *@param
 	 *@return
-	 * 
+	 * Checks whether the add1 field is empty.
 	 */
-	// getCurDate = () => {
-	// 	let curDate = new Date();
-	// 	curDate.setHours(curDate.getHours() - 7);
-	// 	//console.log('curDate: ' + curDate);
-	// 	return curDate;
-	// }
+	validateAdd1 = () => {
+		let add1 = document.getElementById('add1');
+		if (add1.value.length === 0) {
+			this.setState({isAdd1Empty: true});
+		} else {
+			this.setState({isAdd1Empty: false});
+		}
+	}
+
+	/**
+	 *@param
+	 *@return
+	 * Checks whether the city field is empty.
+	 */
+	validateCity = () => {
+		let city = document.getElementById('city');
+		if (city.value.length === 0) {
+			this.setState({isCityEmpty: true});
+		} else {
+			this.setState({isCityEmpty: false});
+		}
+	}
+
+	/**
+	 *@param
+	 *@return
+	 * Checks whether the zip code field is empty.
+	 */
+	validateZip = () => {
+		let zip = document.getElementById('zip');
+		if (zip.value.length === 0) {
+			this.setState({isZipEmpty: true});
+		} else {
+			this.setState({isZipEmpty: false});
+		}
+	}
+
 
 	/**
 	 *@param
@@ -466,40 +501,6 @@ export default class AddEvent extends React.Component {
 	/**
 	 *@param
 	 *@return
-	 * Checks that the end time is later than the start time.
-	 */
-	// validateEndTime = () => {
-	// 	let isEndTimeValid;
-	// 	let endTimeErrors = '';
-	// 	let endTimeMin = this.timeStrToMinutes(); 
-
-	// 	if (this.state.startTimeMin < endTimeMin) {
-	// 		this.setState({
-	// 			isEndTimeValid: true,
-	// 			endTimeErrors: ''
-	// 		});
-	// 	} else {
-	// 		this.setState({
-	// 			isEndTimeValid: false,
-	// 			endTimeErrors: 'The end time should be later than the start time'
-	// 		});
-	// 	}
-	// }
-
-	/**
-	 *@param
-	 *@return
-	 * If the end time validation fails, displays the error message.
-	 */
-	// displayEndTimeError = () => {
-	// 	return (
-	// 		<p className="end-time-error error">{this.state.endTimeErrors}</p>
-	// 	)
-	// }
-
-	/**
-	 *@param
-	 *@return
 	 * Converts string format of guest list to an array.
 	 */
 	//parse guest string input val to array
@@ -568,16 +569,19 @@ export default class AddEvent extends React.Component {
 //but in this case, it prevents the browser from responding to the "required" attribute, how do you handle this?
 		e.preventDefault();
 		let guestAr = this.guestStrToList();
-//TODO
-		//if (this.state.isStartDateValid && this.state.isEndTimeValid) {
-			//submit form, save to data store
-			//console.log('all fields are valid, submit form data');
-		//} else {
+
+		if (this.state.isStartDateValid && this.state.isEndDateValid && !this.state.isEventNameEmpty && !this.state.isEventTypeEmpty  && !this.state.isHostEmpty  && !this.state.isAdd1Empty  && !this.state.isCityEmpty  && !this.state.isZipEmpty && !this.state.isStartDateEmpty && !this.state.isEndDateEmpty && !this.state.isGuestsTextEmpty) {
+			//TODO save to data store
+			//submit form, 
+			console.log('all fields are valid, submit form data');
+		} else {
 			//prevent submit, give error msg
-			//console.log('there are invalid fields that need to be fixed before the form can be submitted');
-		//}
+			//console.log('this.state.isStartDateValid: ' + this.state.isStartDateValid);
+			//console.log('this.state.isEndTimeValid: ' + this.state.isEndTimeValid);
+			console.log('there are invalid fields that need to be fixed before the form can be submitted');
+		}
 		//clear form
-		//formAddEvent.reset();
+		formAddEvent.reset();
 	}
 
 }
