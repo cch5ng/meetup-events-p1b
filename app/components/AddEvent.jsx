@@ -48,7 +48,7 @@ export default class AddEvent extends React.Component {
 						<label htmlFor="evt-type" className="col-sm-2 control-label">Event Type</label>
 						<div className="col-sm-10">
 							<input list="evt-type" className="form-control" name="evt-type" required />
-							<datalist id="evt-type" >
+							<datalist id="evt-type">
 							  <option value="Social" />
 							  <option value="Business" />
 							  <option value="Other" />
@@ -64,14 +64,14 @@ export default class AddEvent extends React.Component {
 					<div className="form-group">
 						<label htmlFor="evt-start-date" className="col-sm-2 control-label">Start Date/Time</label>
 						<div className="col-sm-10">
-							<input id="evt-start-date" className="form-control" type="datetime-local" name="evt-start-date" onChange={this.validateStartDate} required />
+							<input id="evt-start-date" className="form-control" type="datetime-local" name="evt-start-date" onChange={this.validateStartDate} aria-labelledby="evt-start-date" required />
 							{this.state.isStartDateValid ? null : this.displayStartDateError()}
 						</div>
 					</div>
 					<div className="form-group">
 						<label htmlFor="evt-end-date" className="col-sm-2 control-label">End Date/Time</label>
 						<div className="col-sm-10">
-							<input id="evt-end-date" className="form-control" type="datetime-local" name="evt-end-date" onChange={this.validateEndDate} required />
+							<input id="evt-end-date" className="form-control" type="datetime-local" name="evt-end-date" onChange={this.validateEndDate} aria-labelledby="evt-end-date" required />
 							{this.state.isEndDateValid ? null : this.displayEndDateError()}
 						</div>
 					</div>
