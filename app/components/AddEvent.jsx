@@ -576,6 +576,18 @@ export default class AddEvent extends React.Component {
 			console.log('all fields are valid, submit form data');
 			//clear form
 			formAddEvent.reset();
+			this.setState({
+				isEventNameEmpty: true,
+				isEventTypeEmpty: true,
+				isHostEmpty: true,
+				isAdd1Empty: true,
+				isCityEmpty: true,
+				isZipEmpty: true,
+				isStartDateEmpty: true,
+				isEndDateEmpty: true,
+				isGuestsTextEmpty: true
+			});
+			this.getGeolocation();
 		} else {
 			//prevent submit, give error msg
 			//console.log('this.state.isStartDateValid: ' + this.state.isStartDateValid);
