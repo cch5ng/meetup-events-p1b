@@ -8,13 +8,17 @@ export default class Registration extends React.Component {
 		super(props);
 
 		this.state = {
-			isOpen: false,
+//			isOpen: false,
+			isNameEmpty: true,
 			isEmailValid: true,
+			isEmailEmpty: true,
 			emailErrors: null,
 			isPwdValid: true,
 			pwdErrors: [],
+			isPwdEmpty: true,
 			isPwd2Valid: true,
 			pwd2Errors: [],
+			isPwd2Empty: true,
 			passwordsMatch: true,
 			passwordsMatchError: null
 		}
@@ -35,13 +39,15 @@ export default class Registration extends React.Component {
 					<div className="form-group">
 						<label htmlFor="name" className="col-sm-2 control-label">Name</label>
 						<div className="col-sm-10">
-							<input type="text" id="name" className="form-control" name="name" required autoComplete="name" autoFocus placeholder="Full Name" />
+							<input type="text" id="name" className="form-control" name="name" onChange={this.validateName} required autoComplete="name" autoFocus placeholder="Full Name" />
+							{this.state.isNameEmpty ? this.displayRequiredError() : null }
 						</div>
 					</div>
 					<div className="form-group">
 						<label htmlFor="email" className="col-sm-2 control-label">Email Address</label>
 						<div className="col-sm-10">
 							<input id="email" className="form-control" name="email" type="email" onChange={this.validateEmail} required autoComplete="email" placeholder="name@example.com" />
+							{this.state.isEmailEmpty ? this.displayRequiredError() : null }
 							{this.state.isEmailValid ? null : this.displayEmailError()}
 						</div>
 					</div>
@@ -49,6 +55,7 @@ export default class Registration extends React.Component {
 						<label htmlFor="pwd" className="col-sm-2 control-label">Password</label>
 						<div className="col-sm-10">
 							<input id="pwd" className="form-control" name="pwd" type="password" onChange={this.validatePwd} placeholder=">= 8 chars, 1 num, 1 CAP, 1 special char" required />
+							{this.state.isPwdEmpty ? this.displayRequiredError() : null }
 							{this.state.isPwdValid ? null : this.displayPwdError()}
 							{this.state.passwordsMatch ? null : this.displayPwdMatchError()}
 						</div>
@@ -57,6 +64,7 @@ export default class Registration extends React.Component {
 						<label htmlFor="pwd2" className="col-sm-2 control-label">Confirm Password</label>
 						<div className="col-sm-10">
 							<input id="pwd2" className="form-control" name="pwd2" type="password" onChange={this.validatePwd2} placeholder=">= 8 chars, 1 num, 1 CAP, 1 special char" required />
+							{this.state.isPwd2Empty ? this.displayRequiredError() : null }
 							{this.state.isPwd2Valid ? null : this.displayPwd2Error()}
 							{this.state.passwordsMatch ? null : this.displayPwdMatchError()}
 						</div>
@@ -78,18 +86,39 @@ export default class Registration extends React.Component {
 	/**
 	 *@param
 	 *@return
+	 * Verifies that the name is populated
+	 */
+	validateName = (e) => {
+		let name = document.getElementById('name');
+
+		if (name.value.length === 0) {
+			this.setState({isNameEmpty: true});
+		} else {
+			this.setState({isNameEmpty: false});
+		}
+	};
+
+	/**
+	 *@param
+	 *@return
 	 * Verifies that the email has the correct data format. If not, sets an error message in the state.
 	 */
 	validateEmail = (e) => {
 		//console.log('email event handler');
 		var email = document.getElementById('email');
+		let isEmailEmpty;
 
 		if (email.value.match(/\w+@\w+.\w+/g)) {
-			this.setState({isEmailValid: true, emailErrors: ''})
+			this.setState({isEmailValid: true, emailErrors: '', isEmailEmpty: false})
 			email.setCustomValidity('');
 			//console.log('isEmailValid: ' + this.state.isEmailValid);
 		} else {
-			this.setState({isEmailValid: false, emailErrors: 'Email address should have the format: name@mail.com'})
+			if (email.value.length === 0) {
+				isEmailEmpty = true;
+			} else {
+				isEmailEmpty = false;
+			}
+			this.setState({isEmailValid: false, emailErrors: 'Email address should have the format: name@mail.com', isEmailEmpty: isEmailEmpty})
 			email.setCustomValidity("Email address should have the format: name@mail.com");
 			//console.log('isEmailValid: ' + this.state.isEmailValid);
 		}
@@ -114,6 +143,14 @@ export default class Registration extends React.Component {
 	validatePwd = (e) => {
 		var pwd = document.getElementById('pwd');
 		var pwdErrorsAr = [];
+		let isPwdEmpty;
+
+		//is field empty
+		if (pwd.value.length === 0) {
+			isPwdEmpty = true;
+		} else {
+			isPwdEmpty = false;
+		}
 
 		//console.log('pwd event listener');
 		if (pwd.value.match(/[A-Z]/g)) {
@@ -136,10 +173,10 @@ export default class Registration extends React.Component {
 		}
 
 		if (pwdErrorsAr.length === 0) {
-			this.setState({isPwdValid: true, pwdErrors: []})
+			this.setState({isPwdValid: true, pwdErrors: [], isPwdEmpty: isPwdEmpty});
 			pwd.setCustomValidity('');
 		} else {
-			this.setState({isPwdValid: false, pwdErrors: pwdErrorsAr})
+			this.setState({isPwdValid: false, pwdErrors: pwdErrorsAr, isPwdEmpty: isPwdEmpty});
 			pwd.setCustomValidity(pwdErrorsAr.join('. '));
 		}
 
@@ -158,6 +195,14 @@ export default class Registration extends React.Component {
 	validatePwd2 = (e) => {
 		var pwd2 = document.getElementById('pwd2');
 		var pwdErrorsAr2 = [];
+		let isPwd2Empty;
+
+		//is field empty
+		if (pwd2.value.length === 0) {
+			isPwd2Empty = true;
+		} else {
+			isPwd2Empty = false;
+		}
 
 		//console.log('pwd event listener');
 		if (pwd2.value.match(/[A-Z]/g)) {
@@ -180,10 +225,10 @@ export default class Registration extends React.Component {
 		}
 
 		if (pwdErrorsAr2.length === 0) {
-			this.setState({isPwd2Valid: true, pwd2Errors: []})
+			this.setState({isPwd2Valid: true, pwd2Errors: [], isPwd2Empty: isPwd2Empty});
 			pwd2.setCustomValidity('');
 		} else {
-			this.setState({isPwd2Valid: false, pwd2Errors: pwdErrorsAr2})
+			this.setState({isPwd2Valid: false, pwd2Errors: pwdErrorsAr2, isPwd2Empty: isPwd2Empty});
 			pwd2.setCustomValidity(pwdErrorsAr2.join('. '));
 		}
 
@@ -244,7 +289,17 @@ export default class Registration extends React.Component {
 		} else {
 			this.setState({passwordsMatch: false, passwordsMatchError: 'Passwords are not matching. Check for typos'});
 		}
+	}
 
+	/**
+	 *@param
+	 *@return
+	 * Displays an error for required fields which are empty.
+	 */
+	displayRequiredError = () => {
+		return (
+			<p className="required-error error">This field is required</p>
+		)
 	}
 
 	/**
