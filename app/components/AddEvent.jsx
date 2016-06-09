@@ -8,7 +8,7 @@ export default class AddEvent extends React.Component {
 		super(props);
 
 		this.state = {
-			geoLocationChecked: false,
+			geoLocationChecked: true,
 			geoAddressFull: '',
 			geoAdd1: '',
 			geoCity: '',
@@ -75,16 +75,6 @@ export default class AddEvent extends React.Component {
 							{this.state.isEndDateValid ? null : this.displayEndDateError()}
 						</div>
 					</div>
-
-{/*
-					<div className="form-group">
-						<label htmlFor="evt-end-time" className="col-sm-2 control-label">End Time</label>
-						<div className="col-sm-10">
-							<input id="evt-end-time" className="form-control" type="time" name="evt-end-time" alt="event end time" onChange={this.validateEndTime} />
-							{this.state.isEndTimeValid ? null : this.displayEndTimeError()}
-						</div>
-					</div>
-*/}
 					<div className="form-group">
 						<div className="col-sm-offset-2 col-sm-10">
 							<div className="checkbox">
@@ -95,30 +85,22 @@ export default class AddEvent extends React.Component {
 						</div>
 					</div>
 					<div className="add-group">
-{/*
-						<div className="form-group">
-							<label htmlFor="venue" className="col-sm-2 control-label">Venue</label>
-							<div className="col-sm-10">
-								<input type="text" id="venue" className="form-control" name="venue" alt="event venue name" placeholder="optional" />
-							</div>
-						</div>
-*/}
 						<div className="form-group">
 							<label htmlFor="add1" className="col-sm-2 control-label">Street Address</label>
 							<div className="col-sm-10">
-								<input type="text" id="add1" className="form-control" name="address" alt="event street address" required autoComplete="street-address" value={this.state.geoAdd1} />
+								<input type="text" id="add1" className="form-control" name="address" alt="event street address" required autoComplete="street-address" /> {/*value={this.state.geoAdd1} */}
 							</div>
 						</div>
 						<div className="form-group">
 							<label htmlFor="city" className="col-sm-2 control-label">City</label>
 							<div className="col-sm-10">
-								<input type="text" id="city" className="form-control" name="province" alt="event city" required autoComplete="address-level2" value={this.state.geoCity} />
+								<input type="text" id="city" className="form-control" name="province" alt="event city" required autoComplete="address-level2" /> {/* value={this.state.geoCity}*/}
 							</div>
 						</div>
 						<div className="form-group">
 							<label htmlFor="zip" className="col-sm-2 control-label">Zip Code</label>
 							<div className="col-sm-10">
-								<input type="number" id="zip" className="form-control" name="state" alt="event zip code" required autoComplete="postal-code" value={this.state.geoZip} />
+								<input type="text" id="zip" className="form-control" name="state" alt="event zip code" required autoComplete="postal-code" /> {/*  value={this.state.geoZip}*/}
 							</div>
 						</div>
 					</div>
@@ -169,6 +151,9 @@ export default class AddEvent extends React.Component {
 				reverseGeoCodeUrl += lat + long;
 
 				$.ajax(reverseGeoCodeUrl).done(function(data) {
+					let add1 = document.getElementById('add1');
+					let city = document.getElementById('city');
+					let zip = document.getElementById('zip');
 					results = data['results'][0]['address_components'];
 					geoAdd1 = results[0]['short_name'] + ' ' + results[1]['short_name'];
 					//console.log('geoAdd1: ' + geoAdd1);
@@ -177,12 +162,16 @@ export default class AddEvent extends React.Component {
 					geoZip = results[6]['short_name'];
 					//console.log('geoZip: ' + geoZip);
 
-					this.setState({
-						geoLocationChecked: true,
-						geoAdd1: geoAdd1,
-						geoCity: geoCity,
-						geoZip: geoZip
-					});
+					add1.value = geoAdd1;
+					city.value = geoCity;
+					zip.value = geoZip;
+
+					// this.setState({
+					// 	geoLocationChecked: true,
+					// 	geoAdd1: geoAdd1,
+					// 	geoCity: geoCity,
+					// 	geoZip: geoZip
+					// });
 					//console.log('this: ' + this);
 					//console.log('state geoAdd1: ' + this.state.geoLocationChecked);
 				}.bind(that)).fail(function(jqXHR, textStatus, errorThrown) {
@@ -202,12 +191,21 @@ export default class AddEvent extends React.Component {
 	 */
 	toggleGeolocation = () => {
 		if (this.state.geoLocationChecked) {
-			this.setState({
-				geoLocationChecked: false,
-				geoAdd1: '',
-				geoCity: '',
-				geoZip: ''
-			});
+			this.setState({geoLocationChecked: false});
+			let add1 = document.getElementById('add1');
+			let city = document.getElementById('city');
+			let zip = document.getElementById('zip');
+			add1.value = '';
+			city.value = '';
+			zip.value = '';
+
+
+			// this.setState({
+			// 	geoLocationChecked: false,
+			// 	geoAdd1: '',
+			// 	geoCity: '',
+			// 	geoZip: ''
+			// });
 		} else {
 			this.setState({
 				geoLocationChecked: true
