@@ -8,18 +8,27 @@ export default class AddEvent extends React.Component {
 		super(props);
 
 		this.state = {
+			isEventNameEmpty: true,
+			isEventTypeEmpty: true,
+			isHostEmpty: true,
 			geoLocationChecked: true,
 			geoAddressFull: '',
 			geoAdd1: '',
 			geoCity: '',
 			geoZip: '',
+			isAdd1Empty: true,
+			isCityEmpty: true,
+			isZipEmpty: true,
 			isStartDateValid: true,
+			isStartDateEmpty: true,
 			startDateErrors: '',
 			isEndDateValid: true,
+			isEndDateEmpty: true,
 			endDateErrors: [],
 			startDate: null,
 			endDate: null,
 			isGuestsTextValid: false,
+			isGuestsTextEmpty: true,
 			guestsTextErrors: ''
 		}
 	}
@@ -37,22 +46,24 @@ export default class AddEvent extends React.Component {
 		return (
 			<div>
 				<h3>Add Event</h3>
-				<form className="form-horizontal">
+				<form className="form-horizontal" id="form-add-event">
 					<div className="form-group">
 						<label htmlFor="evt-name" className="col-sm-2 control-label">Event Name</label>
 						<div className="col-sm-10">
-							<input type="text" id="evt-name" className="form-control" name="evt-name" placeholder="required" autoFocus required />
+							<input type="text" id="evt-name" className="form-control" name="evt-name" onChange={this.validateEventName} placeholder="required" autoFocus required />
+							{this.state.isEventNameEmpty ? this.displayRequiredError() : null }
 						</div>
 					</div>
 					<div className="form-group">
 						<label htmlFor="evt-type" className="col-sm-2 control-label">Event Type</label>
 						<div className="col-sm-10">
-							<input list="evt-type" className="form-control" name="evt-type" required />
+							<input list="evt-type" id="evt-type-list" className="form-control" name="evt-type" onChange={this.validateEventType} required />
 							<datalist id="evt-type">
 							  <option value="Social" />
 							  <option value="Business" />
 							  <option value="Other" />
 							</datalist>
+							{this.state.isEventTypeEmpty ? this.displayRequiredError() : null }
 						</div>
 					</div>
 					<div className="form-group">
@@ -125,6 +136,36 @@ export default class AddEvent extends React.Component {
 	}
 
 	//helpers
+	/**
+	 *@param
+	 *@return
+	 * Verify that Event Name is not empty.
+	 */
+	validateEventName = () => {
+		let eventName = document.getElementById('evt-name');
+
+		if (eventName.value.length === 0) {
+			this.setState({isEventNameEmpty: true});
+		} else {
+			this.setState({isEventNameEmpty: false});
+		}
+	}
+
+	/**
+	 *@param
+	 *@return
+	 * Verify that Event Type is not empty.
+	 */
+	validateEventType = () => {
+		let eventType = document.getElementById('evt-type-list');
+
+		if (eventType.value.length === 0) {
+			this.setState({isEventTypeEmpty: true});
+		} else {
+			this.setState({isEventTypeEmpty: false});
+		}
+	}
+
 	/**
 	 *@param
 	 *@return
@@ -444,19 +485,35 @@ export default class AddEvent extends React.Component {
 	/**
 	 *@param
 	 *@return
+	 * Displays an error for required fields which are empty.
+	 */
+	displayRequiredError = () => {
+		return (
+			<p className="required-error error">This field is required</p>
+		)
+	}
+
+	/**
+	 *@param
+	 *@return
 	 * On form submit, would verify that there are no input errors. If error free, submit form.
 	 */
 	validateEventForm = (e) => {
+		let formAddEvent = document.getElementById('form-add-event');
 //QUESTION, I learned on form submit that I should call preventDefault() to prevent refreshing the page for SPA's
 //but in this case, it prevents the browser from responding to the "required" attribute, how do you handle this?
-//		e.preventDefault();
+		e.preventDefault();
 		let guestAr = this.guestStrToList();
 //TODO
 		//if (this.state.isStartDateValid && this.state.isEndTimeValid) {
 			//submit form, save to data store
+			//console.log('all fields are valid, submit form data');
 		//} else {
 			//prevent submit, give error msg
+			//console.log('there are invalid fields that need to be fixed before the form can be submitted');
 		//}
+		//clear form
+		//formAddEvent.reset();
 	}
 
 }
