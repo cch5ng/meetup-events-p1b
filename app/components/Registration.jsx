@@ -35,20 +35,20 @@ export default class Registration extends React.Component {
 					<div className="form-group">
 						<label htmlFor="name" className="col-sm-2 control-label">Name</label>
 						<div className="col-sm-10">
-							<input type="text" id="name" className="form-control" name="name" alt="user name" required autoComplete="name" autoFocus placeholder="Full Name" />
+							<input type="text" id="name" className="form-control" name="name" required autoComplete="name" autoFocus placeholder="Full Name" />
 						</div>
 					</div>
 					<div className="form-group">
 						<label htmlFor="email" className="col-sm-2 control-label">Email Address</label>
 						<div className="col-sm-10">
-							<input id="email" className="form-control" name="email" type="email" alt="email address" onChange={this.validateEmail} required autoComplete="email" placeholder="name@example.com" />
+							<input id="email" className="form-control" name="email" type="email" onChange={this.validateEmail} required autoComplete="email" placeholder="name@example.com" />
 							{this.state.isEmailValid ? null : this.displayEmailError()}
 						</div>
 					</div>
 					<div className="form-group">
 						<label htmlFor="pwd" className="col-sm-2 control-label">Password</label>
 						<div className="col-sm-10">
-							<input id="pwd" className="form-control" name="pwd" type="password" alt="password" onChange={this.validatePwd} placeholder=">= 8 chars, 1 num, 1 CAP, 1 special char" required />
+							<input id="pwd" className="form-control" name="pwd" type="password" onChange={this.validatePwd} placeholder=">= 8 chars, 1 num, 1 CAP, 1 special char" required />
 							{this.state.isPwdValid ? null : this.displayPwdError()}
 							{this.state.passwordsMatch ? null : this.displayPwdMatchError()}
 						</div>
@@ -56,7 +56,7 @@ export default class Registration extends React.Component {
 					<div className="form-group">
 						<label htmlFor="pwd2" className="col-sm-2 control-label">Confirm Password</label>
 						<div className="col-sm-10">
-							<input id="pwd2" className="form-control" name="pwd2" type="password" alt="confirm password" onChange={this.validatePwd2} placeholder=">= 8 chars, 1 num, 1 CAP, 1 special char" required />
+							<input id="pwd2" className="form-control" name="pwd2" type="password" onChange={this.validatePwd2} placeholder=">= 8 chars, 1 num, 1 CAP, 1 special char" required />
 							{this.state.isPwd2Valid ? null : this.displayPwd2Error()}
 							{this.state.passwordsMatch ? null : this.displayPwdMatchError()}
 						</div>
@@ -64,7 +64,7 @@ export default class Registration extends React.Component {
 					<div className="form-group">
 						<label htmlFor="title" className="col-sm-2 control-label">Title</label>
 						<div className="col-sm-10">
-							<input type="text" id="title" className="form-control" name="title" alt="title" placeholder="optional" />
+							<input type="text" id="title" className="form-control" name="title" placeholder="optional" />
 						</div>
 					</div>
 					<div className="text-center">
