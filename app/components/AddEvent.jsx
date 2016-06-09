@@ -123,6 +123,7 @@ export default class AddEvent extends React.Component {
 						<label htmlFor="event-guests" className="col-sm-2 control-label">Guests</label>
 						<div className="col-sm-10">
 							<textarea id="event-guests" className={this.getGuestsTextClass()} onChange={this.validateGuestsText} required placeholder="Separate guests with a new line"></textarea>
+							{this.state.isGuestsTextEmpty ? this.displayRequiredError() : null }
 						</div>
 					</div>
 					<div className="form-group">
@@ -513,7 +514,7 @@ export default class AddEvent extends React.Component {
 	 * 
 	 */
 	getGuestsTextClass = () => {
-		if (this.state.isGuestsTextValid) {
+		if (!this.state.isGuestsTextEmpty) {
 			return 'form-control valid';
 		} else {
 			return 'form-control invalid';
@@ -524,13 +525,11 @@ export default class AddEvent extends React.Component {
 		let guests = document.getElementById('event-guests');
 		if (guests.value.length == 0) {
 			this.setState({
-				isGuestsTextValid: false,
-				guestsTextErrors: 'Please enter a guest name'}
+				isGuestsTextEmpty: true}
 			);
 		} else {
 			this.setState({
-				isGuestsTextValid: true,
-				guestsTextErrors: ''}
+				isGuestsTextEmpty: false}
 			);
 		}
 	}
