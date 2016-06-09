@@ -574,14 +574,14 @@ export default class AddEvent extends React.Component {
 			//TODO save to data store
 			//submit form, 
 			console.log('all fields are valid, submit form data');
+			//clear form
+			formAddEvent.reset();
 		} else {
 			//prevent submit, give error msg
 			//console.log('this.state.isStartDateValid: ' + this.state.isStartDateValid);
 			//console.log('this.state.isEndTimeValid: ' + this.state.isEndTimeValid);
 			console.log('there are invalid fields that need to be fixed before the form can be submitted');
 		}
-		//clear form
-		formAddEvent.reset();
 	}
 
 }

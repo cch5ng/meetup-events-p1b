@@ -322,15 +322,15 @@ export default class Registration extends React.Component {
 		let regForm = document.getElementById('reg-form');
 		e.preventDefault();
 		if ( this.state.isEmailValid && this.state.isPwdValid && this.state.isPwd2Valid && this.state.passwordsMatch && !this.state.isEmailEmpty && !this.state.isNameEmpty && !this.state.isPwdEmpty && !this.state.isPwd2Emtpy) {
-//TODO
-			//fields are valid, submit form and save to data store
+			//fields are valid, submit form 
+			//TODO save to data store
 			console.log('submitting form and saving data');
+			//clear form
+			regForm.reset();
 		} else {
 			//don't submit form
 			console.log('cannot submit form. fix validation errors first');
 		}
-		//clear form
-		//regForm.reset();
 	}
 
 }
