@@ -94,7 +94,7 @@ export default class AddEvent extends React.Component {
 						<div className="col-sm-offset-2 col-sm-10">
 							<div className="checkbox">
 								<label>
-									<input type="checkbox" id="curLocation" defaultChecked onChange={this.toggleGeolocation} /> Use current location (may take a few moments)
+									<input type="checkbox" id="curLocation" defaultChecked onChange={this.toggleGeolocation} /> Use current location
 								</label>
 							</div>
 						</div>
