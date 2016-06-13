@@ -9,27 +9,27 @@ export default class AddEvent extends React.Component {
 		super(props);
 
 		this.state = {
-			isEventNameEmpty: true,
-			isEventTypeEmpty: true,
-			isHostEmpty: true,
+			isEventNameEmpty: false,
+			isEventTypeEmpty: false,
+			isHostEmpty: false,
 			geoLocationChecked: true,
 			geoAddressFull: '',
 			geoAdd1: '',
 			geoCity: '',
 			geoZip: '',
-			isAdd1Empty: true,
-			isCityEmpty: true,
-			isZipEmpty: true,
+			isAdd1Empty: false,
+			isCityEmpty: false,
+			isZipEmpty: false,
 			isStartDateValid: true,
-			isStartDateEmpty: true,
+			isStartDateEmpty: false,
 			startDateErrors: '',
 			isEndDateValid: true,
-			isEndDateEmpty: true,
+			isEndDateEmpty: false,
 			endDateErrors: [],
 			startDate: null,
 			endDate: null,
 			isGuestsTextValid: false,
-			isGuestsTextEmpty: true,
+			isGuestsTextEmpty: false,
 			guestsTextErrors: ''
 		}
 	}
@@ -240,11 +240,6 @@ export default class AddEvent extends React.Component {
 					city.value = geoCity;
 					zip.value = geoZip;
 
-					this.setState({
-						isAdd1Empty: false,
-						isCityEmpty: false,
-						isZipEmpty: false
-					});
 					//console.log('this: ' + this);
 					//console.log('state geoAdd1: ' + this.state.geoLocationChecked);
 				}.bind(that)).fail(function(jqXHR, textStatus, errorThrown) {
@@ -268,6 +263,7 @@ export default class AddEvent extends React.Component {
 	 * Handles change on checkbox to use geolocation for form location fields auto completion.
 	 */
 	toggleGeolocation = () => {
+		//condition where user unchecks use current location checkbox
 		if (this.state.geoLocationChecked) {
 			let add1 = document.getElementById('add1');
 			let city = document.getElementById('city');
@@ -282,8 +278,12 @@ export default class AddEvent extends React.Component {
 				isZipEmpty: true
 			});
 		} else {
+			//condition where user checks user current location checkbox
 			this.setState({
-				geoLocationChecked: true
+				geoLocationChecked: true,
+				isAdd1Empty: false,
+				isCityEmpty: false,
+				isZipEmpty: false
 			});
 			this.getGeolocation();
 		}
