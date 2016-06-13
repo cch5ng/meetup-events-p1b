@@ -1,6 +1,6 @@
 # Meetup Events
 
-* [Work in Progress] Practice for forms
+* Practice for forms (validation, error messages, usability)
 * Using React, ES6
 
 ## Running the Application
