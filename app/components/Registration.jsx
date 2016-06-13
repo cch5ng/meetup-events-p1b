@@ -9,17 +9,16 @@ export default class Registration extends React.Component {
 		super(props);
 
 		this.state = {
-//			isOpen: false,
-			isNameEmpty: true,
+			isNameEmpty: false,
 			isEmailValid: true,
-			isEmailEmpty: true,
+			isEmailEmpty: false,
 			emailErrors: null,
 			isPwdValid: true,
 			pwdErrors: [],
-			isPwdEmpty: true,
+			isPwdEmpty: false,
 			isPwd2Valid: true,
 			pwd2Errors: [],
-			isPwd2Empty: true,
+			isPwd2Empty: false,
 			passwordsMatch: true,
 			passwordsMatchError: null
 		}
